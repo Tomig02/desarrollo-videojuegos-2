@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
     private int vidaActual;
     public int danioAtaque = 25;
     public float rangoAtaque = 2f;
+    private CharacterController controlador;
 
     void Start()
     {
         vidaActual = vidaMaxima;
+        controlador = GetComponent<CharacterController>();
     }
 
     void Update()
@@ -21,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movimiento = new Vector3(horizontal, 0f, vertical).normalized;
 
-        transform.Translate(movimiento * velocidad * Time.deltaTime, Space.World);
+        controlador.Move(movimiento * velocidad * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
