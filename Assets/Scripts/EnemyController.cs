@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public void RecibirDanio(int cantidad)
     {
         vidaActual -= cantidad;
+        vidaActual = Mathf.Max(vidaActual, 0);
 
         Debug.Log("Vida del enemigo: " + vidaActual);
 
