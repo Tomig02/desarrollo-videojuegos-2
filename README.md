@@ -1,5 +1,9 @@
  	
 # Desarrollo de videojuegos 2
+
+## Version Unity
+Unity 6.5 (6000.5.10f1)
+
 ## Integrantes
 | Integrantes del grupo | Roles |
 | --------- | --------- |
