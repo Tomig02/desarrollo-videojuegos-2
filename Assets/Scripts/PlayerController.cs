@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public int danioAtaque = 25;
     public float rangoAtaque = 2f;
     private CharacterController controlador;
+    public Transform puntoReaparicion;
+    public float tiempoEntreDanios = 1f;
+    private float proximoDanio = 0f;
 
     void Start()
     {
@@ -46,8 +49,15 @@ public class PlayerController : MonoBehaviour
 
     void Morir()
     {
-        Debug.Log("El jugador murió");
-        Destroy(gameObject);
+        Debug.Log("El jugador murió y reaparece en la base");
+
+        vidaActual = vidaMaxima;
+
+        controlador.enabled = false;
+        transform.position = puntoReaparicion.position;
+        controlador.enabled = true;
+
+        Debug.Log("Jugador reapareció con vida: " + vidaActual);
     }
 
     void Atacar()
@@ -64,6 +74,17 @@ public class PlayerController : MonoBehaviour
             {
                 enemigo.RecibirDanio(danioAtaque);
             }
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        EnemyController enemigo = hit.gameObject.GetComponent<EnemyController>();
+
+        if (enemigo != null && Time.time >= proximoDanio)
+        {
+            RecibirDanio(enemigo.danio);
+            proximoDanio = Time.time + tiempoEntreDanios;
         }
     }
 }
