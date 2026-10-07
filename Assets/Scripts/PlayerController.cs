@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public int danioAtaque = 25;
     public float rangoAtaque = 2f;
     private CharacterController controlador;
+    private Animator animador;
     public Transform puntoReaparicion;
     public float tiempoEntreDanios = 1f;
     private float proximoDanio = 0f;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     {
         vidaActual = vidaMaxima;
         controlador = GetComponent<CharacterController>();
+        animador = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
         Vector3 movimiento = new Vector3(horizontal, 0f, vertical).normalized;
 
         controlador.Move(movimiento * velocidad * Time.deltaTime);
+        animador.SetFloat("Speed", movimiento.magnitude);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
