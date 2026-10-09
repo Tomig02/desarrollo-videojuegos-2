@@ -10,6 +10,12 @@ public class Inventario
 
     public void AgregarItem(ItemScriptableObject datos, int numCantidad)
     {
+        if (datos == null || numCantidad <= 0) 
+        {
+            Debug.LogWarning("Intento de agregar un item nulo o con cantidad no positiva al inventario.");
+            return;
+        } 
+
         CantidadActual += numCantidad;
 
         if (items.TryGetValue(datos, out int cantidadExistente))
@@ -19,11 +25,14 @@ public class Inventario
     }
     public void RemoverItem(ItemScriptableObject datos)
     {
-        var elemento = items.GetValueOrDefault(datos);
+        if (datos == null) {
+            Debug.LogWarning("Intento de remover un item nulo del inventario.");
+            return; 
+        }
 
-        CantidadActual--;
-        if (elemento != null)
+        if (items.TryGetValue(datos, out int cantidadExistente))
         {
+            CantidadActual--;
             items[datos] -= 1;
             if (items[datos] <= 0)
                 items.Remove(datos);
@@ -36,7 +45,8 @@ public class Inventario
     }
     public List<ItemScriptableObject> AplanarInventario()
     {
-        List<ItemScriptableObject> listaAplanada = new List<ItemScriptableObject>();
+        List<ItemScriptableObject> listaAplanada = new List<ItemScriptableObject>(CantidadActual);
+
         foreach (var item in items)
         {
             for(int i = 0; i < item.Value; i++)
