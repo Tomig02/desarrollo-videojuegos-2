@@ -26,6 +26,22 @@ public class ColliderEnemigoHijo : MonoBehaviour
             enemigo.ColisionEntrada(objetivo, triggerTipo);
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (triggerTipo != TriggerEnemigo.Danio)
+            return;
+
+        if (other.TryGetComponent(out IObjetivoEnemigo objetivo))
+        {
+            if (enemigo.PuedeAtacar)
+            {
+                enemigo.ColisionEntrada(objetivo, triggerTipo);
+            }
+        }
+    }
+
+
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out IObjetivoEnemigo objetivo))

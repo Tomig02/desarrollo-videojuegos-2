@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IObjetivoEnemigo
 {
     public float velocidad = 5f;
 
@@ -11,9 +12,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controlador;
     private Animator animador;
     public Transform puntoReaparicion;
-    public float tiempoEntreDanios = 1f;
-    private float proximoDanio = 0f;
-
+    
     void Start()
     {
         vidaActual = vidaMaxima;
@@ -63,31 +62,31 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Jugador reapareció con vida: " + vidaActual);
     }
 
+
     void Atacar()
     {
         Debug.Log("El jugador atacó. Daño: " + danioAtaque);
 
         Collider[] enemigosCercanos = Physics.OverlapSphere(transform.position, rangoAtaque);
 
+        HashSet<ComportamientoEnemigo> enemigosGolpeados = new HashSet<ComportamientoEnemigo>();
+
         foreach (Collider collider in enemigosCercanos)
         {
-            EnemyController enemigo = collider.GetComponent<EnemyController>();
+            ComportamientoEnemigo enemigo =
+                collider.GetComponentInParent<ComportamientoEnemigo>();
 
-            if (enemigo != null)
+            if (enemigo != null && enemigosGolpeados.Add(enemigo))
             {
                 enemigo.RecibirDanio(danioAtaque);
             }
         }
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        EnemyController enemigo = hit.gameObject.GetComponent<EnemyController>();
 
-        if (enemigo != null && Time.time >= proximoDanio)
-        {
-            RecibirDanio(enemigo.danio);
-            proximoDanio = Time.time + tiempoEntreDanios;
-        }
+
+    public Vector3 PosicionActual()
+    {
+        return transform.position;
     }
 }
