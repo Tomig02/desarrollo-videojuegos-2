@@ -39,7 +39,9 @@ public class ComportamientoEnemigo : MonoBehaviour
         animaciones.SetBool("estatico", true);
         vidaActual = vidaMaxima;
 
-        if(colliderDanio == null)
+        animaciones.SetBool("Idle", true);
+
+        if (colliderDanio == null)
             Debug.LogError("El collider de daño no está asignado en el inspector.");
         if(colliderVision == null)
             Debug.LogError("El collider de visión no está asignado en el inspector.");
@@ -65,11 +67,13 @@ public class ComportamientoEnemigo : MonoBehaviour
             ObjetivoActual = BuscarObjetivoActual();
             agente.isStopped = false;
             agente.SetDestination(ObjetivoActual.PosicionActual());
+            animaciones.SetBool("Moving", true);
         }
         else
         {
             agente.isStopped = true;
             agente.ResetPath();
+            animaciones.SetBool("Moving", false);
         }
     }
 
@@ -78,11 +82,13 @@ public class ComportamientoEnemigo : MonoBehaviour
         if (tipo == TriggerEnemigo.Danio)
         {
             objetivo.RecibirDanio(danio);
+            animaciones.SetTrigger("Attack");
             puedeAtacar = false;
 
             agente.isStopped = true;
             agente.velocity = Vector3.zero;
             agente.ResetPath();
+            animaciones.SetBool("Moving", false);
 
             StartCoroutine(EsperarYAtacar());
         }
@@ -161,6 +167,8 @@ public class ComportamientoEnemigo : MonoBehaviour
 
         Debug.Log("Vida del enemigo: " + vidaActual);
 
+        animaciones.SetTrigger("Hurt");
+
         if (vidaActual <= 0)
         {
             Morir();
@@ -169,6 +177,7 @@ public class ComportamientoEnemigo : MonoBehaviour
     void Morir()
     {
         Debug.Log("El enemigo murió");
+        animaciones.SetTrigger("Death");
         Destroy(gameObject);
     }
 }
