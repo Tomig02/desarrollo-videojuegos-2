@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2467701978636566749}
   - component: {fileID: 1225731603236950054}
   - component: {fileID: 1437625348147592662}
+  - component: {fileID: 2630254467515311107}
   m_Layer: 0
   m_Name: ItemPrefab
   m_TagString: Untagged
@@ -100,6 +101,27 @@ MonoBehaviour:
   rb: {fileID: 2467701978636566749}
   fuerzaSalto: 10
   tiempoDeVida: 10
+--- !u!135 &2630254467515311107
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531299499983780251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8845894105259009535
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +302,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventarioTemporal
   itemPrefab: {fileID: 1437625348147592662}
-  elementos:
-  - <ItemDatos>k__BackingField: {fileID: 0}
-    <Cantidad>k__BackingField: 0
-    <Probabilidad>k__BackingField: 0
+  elementosIniciales: []
+  limiteCantidad: 0

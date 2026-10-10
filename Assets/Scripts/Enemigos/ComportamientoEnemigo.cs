@@ -170,6 +170,12 @@ public class ComportamientoEnemigo : MonoBehaviour
     void Morir()
     {
         Debug.Log("El enemigo murió");
+
+        if (EconomiaBase.Instancia != null)
+        {
+            EconomiaBase.Instancia.AgregarMonedas(25);
+        }
+
         Destroy(gameObject);
     }
 }
