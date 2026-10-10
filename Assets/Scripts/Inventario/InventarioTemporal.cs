@@ -39,6 +39,8 @@ public class InventarioTemporal : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!gameObject.scene.isLoaded) return; 
+        
         Collider col = GetComponent<Collider>();
         Vector3 topPosition = col.bounds.center + new Vector3(0, col.bounds.extents.y, 0);
 
