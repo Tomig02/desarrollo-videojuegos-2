@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemScriptableObject
   <Sprite>k__BackingField: {fileID: 0}
   <Nombre>k__BackingField: Moneda
-  <Valor>k__BackingField: 0
+  <Valor>k__BackingField: 10

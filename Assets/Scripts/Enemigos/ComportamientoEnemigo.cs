@@ -24,6 +24,7 @@ public class ComportamientoEnemigo : MonoBehaviour
     [SerializeField] private int vidaMaxima = 50;
     [SerializeField] private int danio = 25;
     [SerializeField] private bool puedeAtacar = true;
+    public bool PuedeAtacar => puedeAtacar;
     [SerializeField] private float esperaLuegoDeAtaque = 2f;
 
 
@@ -178,6 +179,12 @@ public class ComportamientoEnemigo : MonoBehaviour
     {
         Debug.Log("El enemigo murió");
         animaciones.SetTrigger("Death");
+
+        if (EconomiaBase.Instancia != null)
+        {
+            EconomiaBase.Instancia.AgregarMonedas(25);
+        }
+
         Destroy(gameObject);
     }
 }
