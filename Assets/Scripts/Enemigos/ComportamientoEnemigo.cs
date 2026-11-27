@@ -72,6 +72,7 @@ public class ComportamientoEnemigo : MonoBehaviour
         }
         else
         {
+            ObjetivoActual = null;
             agente.isStopped = true;
             agente.ResetPath();
             animaciones.SetBool("Moving", false);
@@ -186,5 +187,16 @@ public class ComportamientoEnemigo : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (ObjetivoActual == null)
+            Gizmos.color = Color.gray;
+        else
+            Gizmos.color = Color.green;
+
+        // tamaño del collider de visión
+        Gizmos.DrawWireSphere(transform.position, colliderVision.bounds.size.x / 2);
     }
 }

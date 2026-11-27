@@ -304,8 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemigoConSalto
   distanciaSalto: 2
   duracionSalto: 0.5
-  alturaSalto: 1
-  descansoAtaque: 1
+  alturaSalto: 2
+  descansoAtaque: 3
 --- !u!1 &7112364122885390674
 GameObject:
   m_ObjectHideFlags: 0
