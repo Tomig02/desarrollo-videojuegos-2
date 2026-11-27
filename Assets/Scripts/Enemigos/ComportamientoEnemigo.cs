@@ -33,6 +33,8 @@ public class ComportamientoEnemigo : MonoBehaviour
     public IObjetivoEnemigo ObjetivoActual { get; private set; }
     private bool comportamientoSuspendido;
 
+    private float tiempoVisualizacionAtaque = 0f;
+
     void Start()
     {
         objetivos = new List<IObjetivoEnemigo>();
@@ -77,6 +79,8 @@ public class ComportamientoEnemigo : MonoBehaviour
             agente.ResetPath();
             animaciones.SetBool("Moving", false);
         }
+
+        tiempoVisualizacionAtaque -= Time.deltaTime;
     }
 
     public void ColisionEntrada(IObjetivoEnemigo objetivo, TriggerEnemigo tipo)
@@ -85,6 +89,7 @@ public class ComportamientoEnemigo : MonoBehaviour
         {
             objetivo.RecibirDanio(danio);
             animaciones.SetTrigger("Attack");
+            tiempoVisualizacionAtaque = 0.2f;
             puedeAtacar = false;
 
             agente.isStopped = true;
@@ -191,12 +196,30 @@ public class ComportamientoEnemigo : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (ObjetivoActual == null)
-            Gizmos.color = Color.gray;
-        else
-            Gizmos.color = Color.green;
+        // Alcance de visión
+        if (colliderVision != null)
+        {
+            Gizmos.color = ObjetivoActual == null
+                ? Color.gray
+                : Color.green;
 
-        // tamaño del collider de visión
-        Gizmos.DrawWireSphere(transform.position, colliderVision.bounds.size.x / 2);
+            Gizmos.DrawWireSphere(
+                transform.position,
+                colliderVision.bounds.size.x / 2
+            );
+        }
+
+        // Alcance de ataque
+        if (colliderDanio != null)
+        {
+            Gizmos.color = tiempoVisualizacionAtaque > 0
+                ? Color.red
+                : Color.gray;
+
+            Gizmos.DrawWireSphere(
+                transform.position,
+                colliderDanio.bounds.size.x / 2
+            );
+        }
     }
 }
