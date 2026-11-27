@@ -19,8 +19,6 @@ public class InventarioTemporal : MonoBehaviour
             if (chances < elemento.Probabilidad)
                 inventario.AgregarItem(elemento.ItemDatos, elemento.Cantidad);
         }
-
-        Destroy(gameObject, 2f);
     }
 
     public bool IntentarAgregarElemento(ItemScriptableObject datos, int numCantidad, int numProbabilidad)
