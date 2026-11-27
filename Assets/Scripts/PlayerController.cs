@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
     public float velocidad = 5f;
     public int vidaMaxima = 100;
     private int vidaActual;
+    private float tiempoVisualizacionAtaque = 0f;
 
     public static int mejorasDeVida = 0;
 
@@ -50,6 +51,8 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
         {
             Atacar();
         }
+
+        tiempoVisualizacionAtaque -= Time.deltaTime;
     }
 
     public void RecibirDanio(int cantidad)
@@ -81,6 +84,8 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
 
     void Atacar()
     {
+        tiempoVisualizacionAtaque = 0.3f;
+
         Debug.Log("El jugador atacó. Daño: " + danioAtaque);
 
         Collider[] enemigosCercanos = Physics.OverlapSphere(transform.position, rangoAtaque);
@@ -104,5 +109,23 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
     public Vector3 PosicionActual()
     {
         return transform.position;
+    }
+
+    void OnDrawGizmos()
+    {
+        // Rango de ataque
+        Gizmos.color = tiempoVisualizacionAtaque > 0
+            ? Color.red
+            : Color.gray;
+
+        Gizmos.DrawWireSphere(transform.position, rangoAtaque);
+
+        // Punto de reaparición
+        if (puntoReaparicion != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(puntoReaparicion.position, 0.3f);
+            Gizmos.DrawLine(transform.position, puntoReaparicion.position);
+        }
     }
 }
