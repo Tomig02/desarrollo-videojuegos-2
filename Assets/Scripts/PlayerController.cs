@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
 
     void Update()
     {
+        if (estaMuerto) return;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
