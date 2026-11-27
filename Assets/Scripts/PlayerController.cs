@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
     private CharacterController controlador;
     private Animator animador;
     public Transform puntoReaparicion;
+    [SerializeField] private PopupEventSO popupEvent;
+    private bool estaMuerto = false;
 
     void Start()
     {
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
 
     void Update()
     {
+        if (estaMuerto) return;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -70,15 +74,27 @@ public class PlayerController : MonoBehaviour, IObjetivoEnemigo, IRecolector
 
     void Morir()
     {
-        Debug.Log("El jugador murió y reaparece en la base");
+        if (estaMuerto) return;
 
-        vidaActual = vidaMaxima;
+        estaMuerto = true;
 
-        controlador.enabled = false;
-        transform.position = puntoReaparicion.position;
-        controlador.enabled = true;
+        Debug.Log("El jugador murió. Mostrando pop-up.");
 
-        Debug.Log("Jugador reapareció con vida: " + vidaActual);
+        if (popupEvent != null)
+        {
+            popupEvent.Raise(
+                "¿Reintentar?",
+                "Tu personaje ha muerto. ¿Querés volver a intentarlo?",
+                new RestartLevelCommand(),
+                new ExitGameCommand()
+            );
+
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Debug.LogWarning("No se asignó el evento del pop-up.");
+        }
     }
 
 
